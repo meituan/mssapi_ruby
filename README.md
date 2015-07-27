@@ -1,4 +1,4 @@
-# MSS(Meituan Storage Service) for Ruby - Version 1
+# MSS(Meituan Storage Service) SDK for Ruby - Version 1
 
 This is version 1 of the MSS SDK for Ruby.
 
