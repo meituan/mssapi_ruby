@@ -1,54 +1,66 @@
-# MSS(Meituan Storage Service) SDK for Ruby - Version 1
+# MSS(Meituan Storage Service) SDK for Ruby
 
-This is version 1 of the MSS SDK for Ruby.
+This is MSS SDK for Ruby.
+
+## Introduction
+
+### MSS服务介绍
+	美团云存储服务（Meituan Storage Service, 简称MSS)，是美团云对外提供的云存储服务，其具备高可靠，安全，低成本等特性，并且其API兼容S3。MSS适合存放非结构化的数据，比如图片，视频，文档，备份等。
+
+### MSS基本概念介绍
+	MSS的API兼容S3, 其基本概念也和S3相同，主要包括Object, Bucket, Access Key, Secret Key等。
+	Object对应一个文件，包括数据和元数据两部分。元数据以key-value的形式构成，它包含一些默认的元数据信息，比如Content-Type, Etag等，用户也可以自定义元数据。
+	Bucket是object的容器，每个object都必须包含在一个bucket中。用户可以创建任意多个bucket。
+	Access Key和Secret Key: 用户注册MSS时，系统会给用户分配一对Access Key和Secret Key, 用于标识用户，用户在使用API使用MSS服务时，需要使用这两个Key。请在美团云管理控制台查询AccessKey和SecretKey。
+
+### MSS访问域名
+mtmss.com
 
 ## Installation
 
-Version 1 of the MSS SDK for Ruby is available on rubygems.org as two gems:
+	# Install Dependencies
+	gem install nokogiri
+	gem install json
 
-* `aws-sdk-v1`
-* `aws-sdk`
+	# Build Ruby Gem
+	gem build aws-sdk-v1.gemspec
 
-This project uses [semantic versioning](http://semver.org/). If you are using the
-`aws-sdk` gem, we strongly recommend you specify a version constraint in
-your Gemfile. Version 2 of the Ruby SDK will not be backwards compatible
-with version 1.
+	# Install Ruby Gem
+	gem install -l aws-sdk-v1-1.64.0.gem
 
-    # version constraint
-    gem 'aws-sdk', '< 2'
+## Quick Start
 
-    # or use the v1 gem
-    gem 'aws-sdk-v1'
+	require 'aws-sdk-v1'
 
-If you use the `aws-sdk-v1` gem, you may also load the v2 Ruby SDK in the
-same process; The v2 Ruby SDK uses a different namespace, making this possible.
+	s3 = AWS::S3.new({
+		:s3_endpoint => 'mtmss.com',
+		:use_ssl => false,
+		:s3_force_path_style => true,
+		:access_key_id => '',
+		:secret_access_key => ''})
 
-    # when the v2 SDK ships, you will be able to do the following
-    gem 'aws-sdk', '~> 2.0'
-    gem 'aws-sdk-v1'
+	# Create bucket
+	bucket = s3.buckets.create('bucket_name')
+	
+	# List bucket
+	s3.buckets.each do |bucket|
+	  puts bucket.name
+	end
 
-If you are currently using v1 of `aws-sdk` and you update to `aws-sdk-v1`, you
-may need to change how you require the Ruby SDK:
+	# Make bucket public
+	bucket.set_acl_public_read
 
-    require 'aws-sdk-v1' # not 'aws-sdk'
+	# Make bucket private
+	bucket.set_acl_private
 
-If you are using a version of Ruby older than 1.9, you may encounter problems with Nokogiri.
-The authors dropped support for Ruby 1.8.x in Nokogiri 1.6. To use aws-sdk, you'll also have
-to install or specify a version of Nokogiri prior to 1.6, like this:
+	# Does bucket exist?
+	bucket.exists?
 
-    gem 'nokogiri', '~> 1.5.0'
+	# Create object
+	object = bucket.objects['abc'].write('xyz')
 
-## Basic Configuration
+	# Delect object
+	object.delete
 
-You need to provide your MSS security credentials and choose a default region.
-
-```
-AWS.config(access_key_id: '...', secret_access_key: '...', region: 'us-west-2')
-```
-
-You can also specify these values via `ENV`:
-
-    export AWS_ACCESS_KEY_ID='...'
-    export AWS_SECRET_ACCESS_KEY='...'
-    export AWS_REGION='us-west-2'
-
+	# Delect bucket
+	bucket.delete
