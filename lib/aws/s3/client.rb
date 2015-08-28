@@ -1090,8 +1090,8 @@ module AWS
       #   @param [Hash] options
       #   @option options [required,String] :bucket_name
       #   @return [Core::Response]
-#      bucket_method(:get_bucket_versioning, :get, 'versioning',
-#        XML::GetBucketVersioning)
+      bucket_method(:get_bucket_versioning, :get, 'versioning',
+        XML::GetBucketVersioning)
 
       # @overload list_object_versions(options = {})
       #   @param [Hash] options

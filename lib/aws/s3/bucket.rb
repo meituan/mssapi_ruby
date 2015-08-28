@@ -444,8 +444,7 @@ module AWS
 
       # @return [Boolean] returns `true` if version is enabled on this bucket.
       def versioning_enabled?
-#        versioning_state == :enabled
-        return false
+        versioning_state == :enabled
       end
       alias_method :versioned?, :versioning_enabled?
 
@@ -456,9 +455,9 @@ module AWS
       # * `:unversioned` - versioning has never been enabled
       #
       # @return [Symbol] the versioning state
-#      def versioning_state
-#        client.get_bucket_versioning(:bucket_name => @name).status
-#      end
+      def versioning_state
+        client.get_bucket_versioning(:bucket_name => @name).status
+      end
 
       # Deletes all objects from this bucket.
       # @return [nil]

@@ -18,14 +18,25 @@ mtmss.com
 
 ## Installation
 
-	# Install Dependencies
-	gem install nokogiri
-	gem install json
+    安装MSS SDK for Ruby，需要ruby版本在1.9.3以上。
 
-	# Build Ruby Gem
+    # Build ruby
+    首先下载ruby1.9.3源码文件
+    其次解压缩文件，进入该文件目录，编译安装ruby
+    ./configure
+    make
+    sudo make install
+    默认情况下ruby安装在/usr/local/bin/下，安装完成后，如果运行ruby -v 提示未找到ruby命令，可以通过在PATH环境变量中添加‘/usr/local/bin’目录，或者使用‘/usr/local/bin/ruby -v’命令。
+
+
+	# Build gem
+	git clone https://github.com/rubygems/rubygems.git
+	ruby setup.rb
+
+	# Build MSS SDK for Ruby Gem
 	gem build aws-sdk-v1.gemspec
 
-	# Install Ruby Gem
+	# Install MSS SDK for Ruby Gem
 	gem install -l aws-sdk-v1-1.64.0.gem
 
 ## Quick Start
@@ -36,8 +47,8 @@ mtmss.com
 		:s3_endpoint => 'mtmss.com',
 		:use_ssl => false,
 		:s3_force_path_style => true,
-		:access_key_id => '',
-		:secret_access_key => ''})
+		:access_key_id => '****Access Key****',
+		:secret_access_key => '****Access Secret****'})
 
 	# Create bucket
 	bucket = s3.buckets.create('bucket_name')
@@ -57,10 +68,32 @@ mtmss.com
 	bucket.exists?
 
 	# Create object
-	object = bucket.objects['abc'].write('xyz')
+	object_name_one = 'object1'
+	object_content = 'test'
+	obj = bucket.objects[object_name_one].write(object_content)
 
-	# Delect object
-	object.delete
+	# Delete object
+	obj.delete
 
-	# Delect bucket
+	# upload file
+	object_name_for_test_upload = 'object2'
+	upload_file_path = 'filepath'
+	obj_upload = bucket.objects[object_name_for_test_upload]
+	obj_upload.write(:file => upload_file_path)
+
+	# download object to local file
+	File.open('output', 'wb') do |file|
+        obj_upload.read do |chunk|
+            file.write(chunk)
+        end
+    end
+
+    # generate presign(temp) url for another user to read or download
+    temp_url_for_read = obj_upload.url_for(:read, {:expire => 600})
+    puts temp_url_for_read
+
+    # delete all the object in the bucket
+    bucket.clear!
+
+	# Delete bucket
 	bucket.delete
