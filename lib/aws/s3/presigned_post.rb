@@ -87,6 +87,11 @@ module AWS
       #   the signature will expire an hour after it is generated.
       attr_reader :expires
 
+      attr_reader :callback_url
+      attr_reader :callback_body
+      attr_reader :callback_body_type
+      attr_reader :callback_host
+
       # @api private
       SPECIAL_FIELDS = [:key,
                         :policy,
@@ -96,7 +101,11 @@ module AWS
                         :content_length,
                         :conditions,
                         :ignore,
-                        :secure]
+                        :secure,
+                        :callback_url,
+                        :callback_body,
+                        :callback_body_type,
+                        :callback_host]
 
       # Creates a new presigned post object.
       #
@@ -208,6 +217,10 @@ module AWS
         @conditions = opts[:conditions] || {}
         @ignored_fields = [opts[:ignore]].flatten.compact
         @expires = opts[:expires]
+        @callback_url = opts[:callback_url]
+        @callback_body = opts[:callback_body]
+        @callback_body_type = opts[:callback_body_type]
+        @callback_host = opts[:callback_host]
 
         super
 
@@ -330,7 +343,11 @@ module AWS
       def policy
         json = {
           "expiration" => format_expiration,
-          "conditions" => generate_conditions
+          "conditions" => generate_conditions,
+          "callbackUrl" => callback_url,
+          "callbackBody" => callback_body,
+          "callbackBodyType" => callback_body_type,
+          "callbackHost" => callback_host
         }.to_json
         Base64.encode64(json).tr("\n","")
       end
@@ -348,6 +365,7 @@ module AWS
         fields = {
           "AWSAccessKeyId" => config.credential_provider.access_key_id,
           "key" => key,
+          "bucket" => bucket.name,
           "policy" => policy,
           "signature" => signature
         }.merge(optional_fields)
@@ -357,6 +375,7 @@ module AWS
         end
 
         fields.merge(optional_fields)
+
       end
 
       # @api private
@@ -457,7 +476,7 @@ module AWS
           "Expires"
         when :server_side_encryption
           "x-amz-server-side-encryption"
-        when :key, "Key", :policy, "Policy"
+        when :key, "Key", :policy, "Policy", :bucket, "Bucket"
           option_name.to_s.downcase
         when :acl, :success_action_redirect, :success_action_status
           option_name.to_s

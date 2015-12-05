@@ -36,6 +36,7 @@ module AWS
       end
 
       def path_style?
+        return true
         if force_path_style
           true
         else
