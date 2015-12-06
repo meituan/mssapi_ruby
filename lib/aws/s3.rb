@@ -156,5 +156,10 @@ module AWS
       BucketCollection.new(:config => @config)
     end
 
+    def presigned_post_info(bucket, key = "${filename}", opts)
+      pp = buckets[bucket].presigned_post({:key => key, :secure => config.use_ssl}.merge(opts))
+      {:form => pp.fields, :url => pp.url.to_s}
+    end
+
   end
 end

@@ -1287,9 +1287,9 @@ module AWS
       #
       # @see PresignedPost
       # @return [PresignedPost]
-      def presigned_post(options = {})
-        PresignedPost.new(bucket, options.merge(:key => key))
-      end
+#      def presigned_post(options = {})
+#        PresignedPost.new(bucket, options.merge(:key => key))
+#      end
 
       # @note Changing the storage class of an object incurs a COPY
       #   operation.

@@ -748,9 +748,9 @@ module AWS
       # options are sent to the PresignedPost constructor.
       #
       # @see PresignedPost
-#      def presigned_post(options = {})
-#        PresignedPost.new(self, options)
-#      end
+      def presigned_post(options = {})
+        PresignedPost.new(self, options)
+      end
 
     end
 

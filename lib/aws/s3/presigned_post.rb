@@ -244,6 +244,7 @@ module AWS
         req = Request.new
         req.bucket = bucket.name
         req.host = config.s3_endpoint
+        req.force_path_style = config.s3_force_path_style
         build_uri(req)
       end
 
@@ -335,9 +336,9 @@ module AWS
       #
       # @return [ConditionBuilder] An object that allows you to
       #   specify a condition on the metadata attribute.
-      def where_metadata(field)
-        where("x-amz-meta-#{field}")
-      end
+#      def where_metadata(field)
+#        where("x-amz-meta-#{field}")
+#      end
 
       # @return [String] The Base64-encoded JSON policy document.
       def policy
@@ -462,7 +463,8 @@ module AWS
         end
 
         @metadata.each do |key, value|
-          fields["x-amz-meta-#{key}"] = value.to_s
+#          fields["x-amz-meta-#{key}"] = value.to_s
+          fields["#{key}"] = value.to_s
         end
 
         fields
