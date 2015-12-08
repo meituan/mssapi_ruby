@@ -30,7 +30,7 @@ mtmss.com
 
 ### 初始化
 
-```
+```ruby
 	require 'aws-sdk-v1'
 	s3 = AWS::S3.new({
 		:s3_endpoint => 'mtmss.com',
