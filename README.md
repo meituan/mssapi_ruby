@@ -18,17 +18,21 @@ This is MSS SDK for Ruby.
 
 ### MSS访问域名
 
+```
   mtmss.com
+```
 
 ## Installation
 
   安装MSS SDK for Ruby，需要ruby与gem，并且ruby版本在1.9.3以上。
 
+```
   # Build MSS SDK for Ruby Gem
   gem build aws-sdk-v1.gemspec
 
   # Install MSS SDK for Ruby Gem
   gem install -l aws-sdk-v1-1.64.0.gem
+```
 
 ## Quick Start
 
