@@ -36,7 +36,7 @@ This is MSS SDK for Ruby.
 
 ## Quick Start
 
-#### 初始化
+##### 初始化
 
 ```ruby
   require 'aws-sdk-v1'
@@ -48,13 +48,13 @@ This is MSS SDK for Ruby.
     :secret_access_key => '****Access Secret****'})
 ```
 
-#### 新建bucket
+##### 新建bucket
 
 ```ruby
   bucket = s3.buckets.create('bucket_name')
 ```
 
-#### 列出所有bucket
+##### 列出所有bucket
 
 ```ruby
   s3.buckets.each do |bucket|
@@ -62,25 +62,25 @@ This is MSS SDK for Ruby.
   end
 ```
 
-#### 设置bucket属性为公共可读
+##### 设置bucket属性为公共可读
 
 ```ruby
   bucket.set_acl_public_read
 ```
 
-#### 设置bucket属性为私有
+##### 设置bucket属性为私有
 
 ```ruby
   bucket.set_acl_private
 ```
 
-#### 判断bucket是否存在
+##### 判断bucket是否存在
 
 ```ruby
   bucket.exists?
 ```
 
-#### 从字符串或缓冲区上传对象
+##### 从字符串或缓冲区上传对象
 
 ```ruby
   object_name_one = 'object1'
@@ -88,13 +88,13 @@ This is MSS SDK for Ruby.
   obj = bucket.objects[object_name_one].write(object_content)
 ```
 
-#### 删除对象
+##### 删除对象
 
 ```ruby
   obj.delete
 ```
 
-#### 从文件上传对象
+##### 从文件上传对象
 
 ```ruby
   object_name_for_test_upload = 'object2'
@@ -103,7 +103,7 @@ This is MSS SDK for Ruby.
   obj_upload.write(:file => upload_file_path)
 ```
 
-#### 下载对象到本地文件
+##### 下载对象到本地文件
 
 ```ruby
   File.open('output', 'wb') do |file|
@@ -113,20 +113,20 @@ This is MSS SDK for Ruby.
   end
 ```
 
-#### 生成预签名的对象地址
+##### 生成预签名的对象地址
   
 ```ruby
   temp_url_for_read = obj_upload.url_for(:read, {:expire => 600})
   puts temp_url_for_read
 ```
 
-#### 删除bucket内所有对象
+##### 删除bucket内所有对象
 
 ```ruby
   bucket.clear!
 ```
 
-#### 删除bucket
+##### 删除bucket
 
 ```ruby
   bucket.delete
@@ -138,7 +138,7 @@ This is MSS SDK for Ruby.
   请参考samples/s3/presinged_post.rb
 ```
 
-#### 服务器端生成签名表单,用于发给客户端
+##### 服务器端生成签名表单,用于发给客户端
 
 ```ruby
   post_info_str = s3.presigned_post_info(
@@ -153,7 +153,7 @@ This is MSS SDK for Ruby.
     }).to_json
 ```
 
-#### 目前支持的魔法变量
+##### 目前支持的魔法变量
 | 名字   | 描述                 |
 |--------|----------------------|
 | bucket | bucket名字           |
@@ -162,7 +162,7 @@ This is MSS SDK for Ruby.
 | fname  | 上传表单中的filename |
 | fsize  | 对象大小             | 
 
-#### 客户端使用Post上传对象
+##### 客户端使用Post上传对象
 
 ```ruby
   # 这里使用ruby的rest-client做为示例
@@ -175,7 +175,7 @@ This is MSS SDK for Ruby.
   RestClient.post post_info_obj["url"], post_info_obj["form"].merge(client_info)  # 与客户端自定义的表单内容合并后使用rest-client上传
 ```
 
-#### 回调服务器收到的消息体
+##### 回调服务器收到的消息体
 
 ```
   name=lena.jpg&bucket=share&key=Key is lena.jpg&hash="76d710edc4cf48d84e3cfc7e24234a09"&size=68261&server=Hello Server!&client=Hello Client!
