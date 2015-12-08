@@ -17,7 +17,7 @@ Bucket是object的容器，每个object都必须包含在一个bucket中。用�
 Access Key和Secret Key: 用户注册MSS时，系统会给用户分配一对Access Key和Secret Key, 用于标识用户，用户在使用API使用MSS服务时，需要使用这两个Key。请在美团云管理控制台查询AccessKey和SecretKey。
 
 ### MSS访问域名
-mtmss.com
+  mtmss.com
 
 ## Installation
 
