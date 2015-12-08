@@ -134,7 +134,7 @@ module AWS
     #autoload :Policy, 'aws/s3/policy'
     autoload :PrefixAndDelimiterCollection, 'aws/s3/prefix_and_delimiter_collection'
     autoload :PrefixedCollection, 'aws/s3/prefixed_collection'
-    #autoload :PresignedPost, 'aws/s3/presigned_post'
+    autoload :PresignedPost, 'aws/s3/presigned_post'
     #autoload :PresignV4, 'aws/s3/presign_v4'
     autoload :Request, 'aws/s3/request'
     #autoload :RegionDetection, 'aws/s3/region_detection'
@@ -154,6 +154,11 @@ module AWS
     #  buckets in the account.
     def buckets
       BucketCollection.new(:config => @config)
+    end
+
+    def presigned_post_info(bucket, key = "${filename}", opts)
+      pp = buckets[bucket].presigned_post({:key => key, :secure => config.use_ssl}.merge(opts))
+      {:form => pp.fields, :url => pp.url.to_s}
     end
 
   end
