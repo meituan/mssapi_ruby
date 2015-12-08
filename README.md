@@ -30,6 +30,7 @@ mtmss.com
 
 ### 初始化
 
+```
 	require 'aws-sdk-v1'
 	s3 = AWS::S3.new({
 		:s3_endpoint => 'mtmss.com',
@@ -37,6 +38,7 @@ mtmss.com
 		:s3_force_path_style => true,
 		:access_key_id => '****Access Key****',
 		:secret_access_key => '****Access Secret****'})
+```
 
 ### 新建bucket
 
@@ -86,7 +88,7 @@ mtmss.com
   end
 
 ### 生成预签名的对象地址
-
+  
   temp_url_for_read = obj_upload.url_for(:read, {:expire => 600})
   puts temp_url_for_read
 
