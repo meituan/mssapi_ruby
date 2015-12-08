@@ -29,6 +29,7 @@ mtmss.com
 ## Quick Start
 
 ### 初始化
+
 	require 'aws-sdk-v1'
 	s3 = AWS::S3.new({
 		:s3_endpoint => 'mtmss.com',
@@ -38,37 +39,46 @@ mtmss.com
 		:secret_access_key => '****Access Secret****'})
 
 ### 新建bucket
+
 	bucket = s3.buckets.create('bucket_name')
 	
-	# 列出所有bucket
+### 列出所有bucket
+
 	s3.buckets.each do |bucket|
 	  puts bucket.name
 	end
 
 ### 设置bucket属性为公共可读
+
 	bucket.set_acl_public_read
 
 ### 设置bucket属性为私有
+
 	bucket.set_acl_private
 
 ### 判断bucket是否存在
+
 	bucket.exists?
 
 ### 从字符串或缓冲区上传对象
+
 	object_name_one = 'object1'
 	object_content = 'test'
 	obj = bucket.objects[object_name_one].write(object_content)
 
 ### 删除对象
+
 	obj.delete
 
 ### 从文件上传对象
+
 	object_name_for_test_upload = 'object2'
 	upload_file_path = 'filepath'
 	obj_upload = bucket.objects[object_name_for_test_upload]
 	obj_upload.write(:file => upload_file_path)
 
 ### 下载对象到本地文件
+
 	File.open('output', 'wb') do |file|
     obj_upload.read do |chunk|
       file.write(chunk)
@@ -76,18 +86,22 @@ mtmss.com
   end
 
 ### 生成预签名的对象地址
+
   temp_url_for_read = obj_upload.url_for(:read, {:expire => 600})
   puts temp_url_for_read
 
 ### 删除bucket内所有对象
+
   bucket.clear!
 
 ### 删除bucket
+
 	bucket.delete
 
 ## 预签名Post上传对象
 
 ### 服务器端生成签名表单,用于发给客户端
+
   post_info_str = s3.presigned_post_info(
     "share", # bucket名字
     {
@@ -100,6 +114,7 @@ mtmss.com
     }).to_json
 
 ### 目前支持的魔法变量
+
   | 名字   | 描述                 |
   |--------|----------------------|
   | bucket | bucket名字           |
@@ -109,6 +124,7 @@ mtmss.com
   | fsize  | 对象大小             | 
 
 ### 客户端使用Post上传对象
+
   # 这里使用ruby的rest-client做为示例
   client_info = {
     "x-amz-meta-client" => "Hello Client!",  # 客户端自定义变量，mss遵守标准S3协议，post表单最后一项必须是对象内容，因此客户端自定义的变量要写在value之前
@@ -119,4 +135,5 @@ mtmss.com
   RestClient.post post_info_obj["url"], post_info_obj["form"].merge(client_info)  # 与客户端自定义的表单内容合并后使用rest-client上传
 
 ### 回调服务器收到的消息体
+
   name=lena.jpg&bucket=share&key=Key is lena.jpg&hash="76d710edc4cf48d84e3cfc7e24234a09"&size=68261&server=Hello Server!&client=Hello Client!
