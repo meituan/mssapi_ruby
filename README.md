@@ -24,85 +24,85 @@ This is MSS SDK for Ruby.
 
   安装MSS SDK for Ruby，需要ruby与gem，并且ruby版本在1.9.3以上。
 
-	# Build MSS SDK for Ruby Gem
-	gem build aws-sdk-v1.gemspec
+  # Build MSS SDK for Ruby Gem
+  gem build aws-sdk-v1.gemspec
 
-	# Install MSS SDK for Ruby Gem
-	gem install -l aws-sdk-v1-1.64.0.gem
+  # Install MSS SDK for Ruby Gem
+  gem install -l aws-sdk-v1-1.64.0.gem
 
 ## Quick Start
 
 ### 初始化
 
 ```ruby
-	require 'aws-sdk-v1'
-	s3 = AWS::S3.new({
-		:s3_endpoint => 'mtmss.com',
-		:use_ssl => false,
-		:s3_force_path_style => true,
-		:access_key_id => '****Access Key****',
-		:secret_access_key => '****Access Secret****'})
+  require 'aws-sdk-v1'
+  s3 = AWS::S3.new({
+    :s3_endpoint => 'mtmss.com',
+    :use_ssl => false,
+    :s3_force_path_style => true,
+    :access_key_id => '****Access Key****',
+    :secret_access_key => '****Access Secret****'})
 ```
 
 ### 新建bucket
 
 ```ruby
-	bucket = s3.buckets.create('bucket_name')
+  bucket = s3.buckets.create('bucket_name')
 ```
-	
+
 ### 列出所有bucket
 
 ```ruby
-	s3.buckets.each do |bucket|
-	  puts bucket.name
-	end
+  s3.buckets.each do |bucket|
+    puts bucket.name
+  end
 ```
 
 ### 设置bucket属性为公共可读
 
 ```ruby
-	bucket.set_acl_public_read
+  bucket.set_acl_public_read
 ```
 
 ### 设置bucket属性为私有
 
 ```ruby
-	bucket.set_acl_private
+  bucket.set_acl_private
 ```
 
 ### 判断bucket是否存在
 
 ```ruby
-	bucket.exists?
+  bucket.exists?
 ```
 
 ### 从字符串或缓冲区上传对象
 
 ```ruby
-	object_name_one = 'object1'
-	object_content = 'test'
-	obj = bucket.objects[object_name_one].write(object_content)
+  object_name_one = 'object1'
+  object_content = 'test'
+  obj = bucket.objects[object_name_one].write(object_content)
 ```
 
 ### 删除对象
 
 ```ruby
-	obj.delete
+  obj.delete
 ```
 
 ### 从文件上传对象
 
 ```ruby
-	object_name_for_test_upload = 'object2'
-	upload_file_path = 'filepath'
-	obj_upload = bucket.objects[object_name_for_test_upload]
-	obj_upload.write(:file => upload_file_path)
+  object_name_for_test_upload = 'object2'
+  upload_file_path = 'filepath'
+  obj_upload = bucket.objects[object_name_for_test_upload]
+  obj_upload.write(:file => upload_file_path)
 ```
 
 ### 下载对象到本地文件
 
 ```ruby
-	File.open('output', 'wb') do |file|
+  File.open('output', 'wb') do |file|
     obj_upload.read do |chunk|
       file.write(chunk)
     end
@@ -125,7 +125,7 @@ This is MSS SDK for Ruby.
 ### 删除bucket
 
 ```ruby
-	bucket.delete
+  bucket.delete
 ```
 
 ## 预签名Post上传对象
