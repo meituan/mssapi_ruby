@@ -134,6 +134,10 @@ This is MSS SDK for Ruby.
 
 ## 预签名Post上传对象
 
+```
+  请参考samples/s3/presinged_post.rb
+```
+
 ### 服务器端生成签名表单,用于发给客户端
 
 ```ruby
@@ -145,7 +149,7 @@ This is MSS SDK for Ruby.
     :callback_url => "http://mtmsscb.mtmss.cn",             # 上传成功后的回调url
     :callback_body => "name=${fname}&bucket=${bucket}&key=${key}&hash=${etag}&size=${fsize}&server=${x-amz-meta-server}&client=${x-amz-meta-client}",  # 上传成功后回调的内容，可以引用魔法变量和自定义变量
     :callback_body_type => "application/x-www-form-urlencoded",  # 上传成功后回调的Content-Type
-    :callback_host => "mtmsscb.mtmss.com"                   # 上传成功后回调http header中的host，默认为callback_url中的host
+    :callback_host => "mtmsscb.mtmss.com"                   # 上传成功后回调http header中的host
     }).to_json
 ```
 
