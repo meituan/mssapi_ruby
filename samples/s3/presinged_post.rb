@@ -9,7 +9,7 @@ end
 
 # Server End
 s3 = AWS::S3.new({
-    :s3_endpoint => 'msstest.sankuai.info',
+    :s3_endpoint => 'mtmss.com',
     :use_ssl => false,
     :s3_force_path_style => true,
     :access_key_id => access_key,
@@ -28,8 +28,8 @@ post_info_str = s3.presigned_post_info(
 # Client End
 client_info = {
   "x-amz-meta-client" => "Hello Client!",
-  :key => object_key,
-  :value => File.new(file_name, 'rb'),
+  "key" => object_key,
+  "value" => File.new(file_name, 'rb'),
 }
 
 post_info_obj = JSON.parse(post_info_str)
